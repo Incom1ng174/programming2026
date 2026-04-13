@@ -68,8 +68,14 @@ class SpritePreview(QMainWindow):
         self.setCentralWidget(frame)
 
     def build_menu(self):
-        pass
-    # You will need methods in the class to act as slots to connect to signals
+        menu_bar = self.menuBar()
+        file_menu = menu_bar.addMenu("File")
+        pause_action = QAction("Pause", self)
+        pause_action.triggered.connect(self.pause_animation)
+        file_menu.addAction(pause_action)
+        exit_action = QAction("Exit", self)
+        exit_action.triggered.connect(QApplication.quit)
+        file_menu.addAction(exit_action)
 
 
 def main():
