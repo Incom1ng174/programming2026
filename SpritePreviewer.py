@@ -91,7 +91,19 @@ class SpritePreview(QMainWindow):
             self.timer.stop()
             self.is_animating = False
             self.start_stop_btn.setText("Start")
-
+    def next_frame(self):
+        """move to next sprite"""
+        self.current_frame = (self.current_frame + 1) % self.num_frames
+        self.image_label.setPixmap(self.frames[self.current_frame])
+        # Build the filename string to match the zero-padded format
+        padding = math.ceil(math.log(self.num_frames - 1, 10))
+        filename = "sprite_" + str(self.current_frame).rjust(padding, '0') + ".png"
+        self.filename_label.setText(filename)
+    def pause_animation(self):
+        """Stops animation from the File > Pause menu."""
+        self.timer.stop()
+        self.is_animating = False
+        self.start_stop_btn.setText("Start")
 
 def main():
     app = QApplication([])
