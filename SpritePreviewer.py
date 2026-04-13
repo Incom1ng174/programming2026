@@ -66,7 +66,6 @@ class SpritePreview(QMainWindow):
         self.start_stop_btn.clicked.connect(self.on_start_stop)
         main_layout.addWidget(self.start_stop_btn)
         self.setCentralWidget(frame)
-
     def build_menu(self):
         menu_bar = self.menuBar()
         file_menu = menu_bar.addMenu("File")
@@ -76,6 +75,22 @@ class SpritePreview(QMainWindow):
         exit_action = QAction("Exit", self)
         exit_action.triggered.connect(QApplication.quit)
         file_menu.addAction(exit_action)
+    def on_fps_changed(self, fps_value):
+        """updates fps"""
+        self.fps_value_label.setText(f"{fps_value} FPS")
+        if self.is_animating:
+            self.timer.setInterval(int(1000 / fps_value))
+    def on_start_stop(self):
+        """starts and stops animation"""
+        if not self.is_animating:
+            fps = self.fps_slider.value()
+            self.timer.start(int(1000 / fps))
+            self.is_animating = True
+            self.start_stop_btn.setText("Stop")
+        else:
+            self.timer.stop()
+            self.is_animating = False
+            self.start_stop_btn.setText("Start")
 
 
 def main():
